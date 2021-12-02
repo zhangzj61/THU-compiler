@@ -1,0 +1,24 @@
+from funclib import Cache, tab_up, reg_up;
+import profile
+
+_param_ Rows; Hash=2: h1, h2;
+_ext_ cache
+_fields_ 'Op': REQ, REP, UPD; 'Key'; 'Vals';
+_basic_ packet_in, basic_forwarder
+
+pkt = Packet(profile)
+cache = Cache(Rows)
+pkt.parse(packet_in)
+op = pkt.get('Op')
+key = pkt.get('Key')
+if op== REQ:
+    vals = cache.lookup(key)
+    if vals is not None:
+        pkt.embed(packet_in, {'Op': REP, 'Vals': vals})
+        pkt.returner()
+    pkt.emit(packet_in)
+    basic_forwarder(packet_in)
+elif op == UPD:
+    vals = pkt.get('Vals')
+    cache.update(key, vals)
+    pkt.mark_drop()

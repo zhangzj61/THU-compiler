@@ -1,0 +1,24 @@
+{
+	”app”: {"class": ACC},
+	”objective function”: max 0.7*hit_ratio+0.3*record_acc,
+	“packet_format”: {
+		“ethernet”: 14, 
+		“ipv4”: 20, 
+		“ipv6”
+		“udp”: 8,
+		“kv_hdr”: {“op”:["bit_16", {"REQ":0, "REP":1}], ”seq”: "bit_8", "key": "bit_128"},
+		"kv_value": {"value_0": "bit_32", "value_1": "bit_32", "value_2": "bit_32", "value_3": "bit_32"}
+	},
+	"seq": {
+		"ethernet": {"ether_type":{"ipv4":0x0080, "ipv6": 0x86DD}},
+		"ipv4": {"protocol": {"udp": 17}},
+		"ipv6": {"extension": {"udp": 17}},
+		"udp": {"dstPort": {"kv_hdr": 8888}},
+		"kv_hdr": {}}
+	}
+}
+
+#######
+[hdr, width, seq]
+hdr = {"Ethernet": {dstaddr：{type: , width: ,value:}}}
+width = {"Ethernet": 14, "ipv4": 20, ...}

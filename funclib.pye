@@ -1,0 +1,118 @@
+
+class Packet:
+    def __init__(self, profile):
+        self.hdr = profile[0]
+        self.width = profile[1]
+        self.name = self.hdr.keys()[0]
+        self.seq = profile[2]
+        self.header = []
+        self.__meta = {'drop': 0, 'ststamp': 0, 'etstamp': 0}
+
+    def parse(self, packet_in):
+        self.header.append(self.name)
+        __extract(self.name, packet_in)
+        if self.seq[self.name]:
+            signal = self.seq[self.name][0]
+            for n in self.seq[self.name][1].keys():
+                if self.hdr[self.name][signal]['value'] == self.seq[self.name][1][n]:
+                    self.name = n
+                    parse(packet_in)
+
+    def __extract(self, name, packet_in):
+        for key in self.hdr[name].keys():
+            self.hdr[name][key]['value'] = packet_in(self.hdr[name][key]['type'], self.hdr[name][key]['width'])
+
+    def get(self, field):
+        if field in self.hdr.keys():
+            return self.hdr[field]
+        else:
+            for name in self.hdr.keys():
+                if field in self.hdr[name].keys():
+                    return hdr[name][field]
+
+    # switch addr and update checksum
+    def returner(self):
+        if 'tcp' in self.header:
+            checksum(self.hdr['tcp'])
+        if 'udp' in self.header:
+            checksum(self.hdr['udp'])
+        if 'ipv4' in self.header:
+            __do_swap(self.hdr['ipv4']['src_addr']['value'], self.hdr['ipv4']['dst_addr']['value'])
+            checksum(self.hdr['ipv4'])
+        if 'ipv6' in self.header:
+            __do_swap(self.hdr['ipv6']['src_addr']['value'], self.hdr['ipv6']['dst_addr']['value'])
+        if 'ethernet' in self.header:
+            __do_swap(self.hdr['ethernet']['src_addr']['value'], self.hdr['ethernet']['dst_addr']['value'])
+
+    def __do_swap(self, a, b):
+        tmp = a
+        a = b
+        b = tmp
+
+    #embed and update len in packet
+    def embed(self, packet_in, hdrs):
+        for k in hdrs.keys():
+            if k not in self.header:
+                self.header.append(k)
+                if 'udp' in self.header:
+                    self.hdrs['udp']['len'] += self.width[k]
+                if 'ipv4' in self.header:
+                    self.hdrs['ipv4']['totalLen'] += self.width[k]
+                if 'ipv6' in self.header:
+                    self.hdrs['ipv4']['pdLen'] += self.width[k]
+            fields = self.hdr[k].keys()
+            for i in range(len(hdrs[k])):
+                self.hdr[k][fields[i]]['value'] = hdrs[k][i]
+    def emit(self):
+        for h in self.header:
+            for key in self.hdr[h].keys():
+                packet_in(self.hdr[h][key]['type'], self.hdr[h][key]['width'])
+
+    def mark_drop():
+        self.__meta['drop'] = 1
+
+class Hash:
+    import hashlib
+    def __init__(self, hash_name='custom'):
+        self.alg = hash_name
+    def __crc8(self):
+        ...
+    def __md5(self):
+        return hashlib.md5()
+    ...
+    def hash(self, key):
+        if self.alg in ('crc8', 'CRC8'):
+            value = __crc8(key)
+        elif self.alg in ('crc16', 'CRC16'):
+            value = __crc16(key)
+        elif self.alg in ('crc32', 'CRC32'):
+            value = __crc32(key)
+        elif self.alg in ('random', 'RANDOM'):
+            value = __random(key)
+        elif self.alg in ('identity', 'IDENTITY'):
+            value = __identity(key)
+        elif self.alg in ('custom', 'CUSTOM'):
+            value = __custom(key)
+        ...
+        return value
+
+class Cache:
+    def __init__(self, rows, hash_name='custom'):
+        self.rows = rows
+        self.cache = [rows*[]]
+        self.valid = [0 for i in range(rows)]
+        self.H = Hash(hash_name)
+
+    def lookup(self, key):
+        index = self.H.hash(key)
+        if index >= self.rows:
+            index = index - index/self.rows
+        if self.valid[index]:
+            return self.cache[index]
+
+    def update(self, key, values):
+        index = self.H.hash(key)
+        if index >= self.rows:
+            index = index - index/self.rows
+        if self.valid[index]:
+            self.cache[index] = values

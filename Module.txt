@@ -1,0 +1,104 @@
+[Module]
+
+Logic kv_cache (packet_in pkt{ fields {DstPort: DPORT, Op: REQ, REP, UPD; Key; Val}, basic_forwarder fd}) {
+   DB cache;
+   Func extractor, Lookup=2:tab_lp.reg_lp, Update=2:tab_up.reg_up, emitter, returner, dropper;
+   Var port, op, key, val, v;
+
+   port = extractor(pkt)[“DstPort”];
+   If port = DPORT:
+      op, key = extractor(pkt)[”Op”, ”Key”];
+      If op==REQ:
+         val = Lookup(cache, key)
+         If val != Null:
+            op=REP;
+            returner(pkt);
+      Elif op==UPD:
+         val = extractor(pkt)[”Value”];
+         Update(cache, val);
+         dropper(pkt);
+      emitter(pkt, {"DstPort": DPORT; "Op": op; "Key": key; "Val": val} )
+   else:
+      emitter(pkt, {"DstPort": DPORT})
+   fd(pkt)
+}
+
+Logic kv_cache (packet_in pkt{ fields {DstPort: DPORT, Op: REQ, REP, UPD; Key; Val}, basic_forwarder fd}) {
+>STAT:
+   DB cache;
+   Func extractor, Lookup=2:tab_lp.reg_lp, Update=2:tab_up.reg_up, emitter, returner, dropper;
+   Var port, op, key, val, v;
+>IN:
+   port = extractor(pkt)[“DstPort”];
+   If port = DPORT:
+      op, key = extractor(pkt)[”Op”, ”Key”];
+   Elif op==UPD:
+      val = extractor(pkt)[”Value”];
+>PROC:
+   If op == REQ:
+      val = Lookup(cache, key)
+      If val != Null:
+         op=REP;
+         returner(pkt);
+   Elif op == UPD:
+      Update(cache, val);
+      dropper(pkt);
+   fd(pkt)
+>OUT:
+   If val != Null:
+      emitter(pkt, {"DstPort": DPORT; "Op": op; "Key": key; "Val": val} )
+   Else:
+      emitter(pkt, {"DstPort": DPORT})
+}
+
+Logic calc_reuse (packet_in pkt{ fileds {"DstPort": DPORT; "Op": REQ, REP, UPD_M, UPD_C; "Feat"; "Val" } }, basic_forwarder fd) {
+   Param Thresh:∝m(recall)/m(precision);
+   DB mat, cache;
+   Func extractor, Encoder=2:ln_enc.di_enc, Matcher=2:h_mat.t_mat, Lookup=2:tab_lp.reg_lp, Update=2:tab_up.reg_up, emitter, returner;
+   Var port, op, feat, val, b, idx, key, v;
+   
+   port = extractor(pkt)[“DstPort”];
+   If port = DPORT:
+      op, feat, val = extractor(pkt)[”Op”, ”Feat”, ”Value”];
+      If op==REQ:
+         b=Encoder(f);
+         idx=Matcher(mat, b);
+         If idx != Null:
+            key, v=Lookup(cache, idx);
+            If Dist (feat, key) <= Thresh:
+               op=REP; val=v;
+               returner(pkt);
+      emitter(pkt, {“DstPort”: DPORT; “Op”: op; “Feat”: feat; “Val”: val} )
+   else:
+      emitter(pkt, {“DstPort”: DPORT})
+   fd(pkt)  
+}
+
+Logic calc_reuse (packet_in pkt{ fileds {"DstPort": DPORT; "Op": REQ, REP, UPD_M, UPD_C; "Feat"; "Val" } }, basic_forwarder fd) {
+>STAT:
+   Param Thresh:∝m(recall)/m(precision);
+   DB mat, cache;
+   Func extractor, Encoder=2:ln_enc.di_enc, Matcher=2:h_mat.t_mat, Lookup=2:tab_lp.reg_lp, Update=2:tab_up.reg_up, emitter, returner;
+   Var port, op, feat, val, b, idx, key;
+>IN:
+   port = extractor(pkt)[“DstPort”];
+   If port = DPORT:
+      op, feat = extractor(pkt)[”Op”, ”Feat”];
+>PROC:
+   If op == REQ:
+      b=Encoder(f);
+      idx=Matcher(mat, b);
+      If idx != Null:
+         key, val=Lookup(cache, idx);
+         If Dist (feat, key) <= Thresh:
+            op=REP;
+            returner(pkt);
+   fd(pkt)
+>OUT:
+   If val != Null:
+      emitter(pkt, {“DstPort”: DPORT; “Op”: op; “Feat”: feat; “Val”: val} )
+   Elif op != Null:
+      emitter(pkt, {“DstPort”: DPORT; “Op”: op; “Feat”: feat} )
+   Else:
+      emitter(pkt, {“DstPort”: DPORT})
+}

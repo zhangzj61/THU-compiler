@@ -1,0 +1,1861 @@
+Module(
+    body=[
+        ClassDef(
+            name='Packet',
+            bases=[],
+            keywords=[],
+            body=[
+                FunctionDef(
+                    name='__init__',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='profile'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='hdr',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Subscript(
+                                value=Name(id='profile', ctx=Load()),
+                                slice=Constant(value=0),
+                                ctx=Load(),
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='width',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Subscript(
+                                value=Name(id='profile', ctx=Load()),
+                                slice=Constant(value=1),
+                                ctx=Load(),
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='name',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Subscript(
+                                value=Call(
+                                    func=Attribute(
+                                        value=Attribute(
+                                            value=Name(id='self', ctx=Load()),
+                                            attr='hdr',
+                                            ctx=Load(),
+                                        ),
+                                        attr='keys',
+                                        ctx=Load(),
+                                    ),
+                                    args=[],
+                                    keywords=[],
+                                ),
+                                slice=Constant(value=0),
+                                ctx=Load(),
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='seq',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Subscript(
+                                value=Name(id='profile', ctx=Load()),
+                                slice=Constant(value=2),
+                                ctx=Load(),
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='header',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=List(elts=[], ctx=Load()),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='__meta',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Dict(
+                                keys=[
+                                    Constant(value='drop'),
+                                    Constant(value='ststamp'),
+                                    Constant(value='etstamp'),
+                                ],
+                                values=[
+                                    Constant(value=0),
+                                    Constant(value=0),
+                                    Constant(value=0),
+                                ],
+                            ),
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='parse',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='packet_in'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Expr(
+                            value=Call(
+                                func=Attribute(
+                                    value=Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                    attr='append',
+                                    ctx=Load(),
+                                ),
+                                args=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='name',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                                keywords=[],
+                            ),
+                        ),
+                        Expr(
+                            value=Call(
+                                func=Name(id='__extract', ctx=Load()),
+                                args=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='name',
+                                        ctx=Load(),
+                                    ),
+                                    Name(id='packet_in', ctx=Load()),
+                                ],
+                                keywords=[],
+                            ),
+                        ),
+                        If(
+                            test=Subscript(
+                                value=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='seq',
+                                    ctx=Load(),
+                                ),
+                                slice=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='name',
+                                    ctx=Load(),
+                                ),
+                                ctx=Load(),
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[Name(id='signal', ctx=Store())],
+                                    value=Subscript(
+                                        value=Subscript(
+                                            value=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='seq',
+                                                ctx=Load(),
+                                            ),
+                                            slice=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='name',
+                                                ctx=Load(),
+                                            ),
+                                            ctx=Load(),
+                                        ),
+                                        slice=Constant(value=0),
+                                        ctx=Load(),
+                                    ),
+                                    type_comment=None,
+                                ),
+                                For(
+                                    target=Name(id='n', ctx=Store()),
+                                    iter=Call(
+                                        func=Attribute(
+                                            value=Subscript(
+                                                value=Subscript(
+                                                    value=Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='seq',
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='name',
+                                                        ctx=Load(),
+                                                    ),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value=1),
+                                                ctx=Load(),
+                                            ),
+                                            attr='keys',
+                                            ctx=Load(),
+                                        ),
+                                        args=[],
+                                        keywords=[],
+                                    ),
+                                    body=[
+                                        If(
+                                            test=Compare(
+                                                left=Subscript(
+                                                    value=Subscript(
+                                                        value=Subscript(
+                                                            value=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='hdr',
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='name',
+                                                                ctx=Load(),
+                                                            ),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='signal', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='value'),
+                                                    ctx=Load(),
+                                                ),
+                                                ops=[Eq()],
+                                                comparators=[
+                                                    Subscript(
+                                                        value=Subscript(
+                                                            value=Subscript(
+                                                                value=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='seq',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                slice=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='name',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Constant(value=1),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='n', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                Assign(
+                                                    targets=[
+                                                        Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='name',
+                                                            ctx=Store(),
+                                                        ),
+                                                    ],
+                                                    value=Name(id='n', ctx=Load()),
+                                                    type_comment=None,
+                                                ),
+                                                Expr(
+                                                    value=Call(
+                                                        func=Name(id='parse', ctx=Load()),
+                                                        args=[Name(id='packet_in', ctx=Load())],
+                                                        keywords=[],
+                                                    ),
+                                                ),
+                                            ],
+                                            orelse=[],
+                                        ),
+                                    ],
+                                    orelse=[],
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='__extract',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='name'),
+                            arg(arg='packet_in'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        For(
+                            target=Name(id='key', ctx=Store()),
+                            iter=Call(
+                                func=Attribute(
+                                    value=Subscript(
+                                        value=Attribute(
+                                            value=Name(id='self', ctx=Load()),
+                                            attr='hdr',
+                                            ctx=Load(),
+                                        ),
+                                        slice=Name(id='name', ctx=Load()),
+                                        ctx=Load(),
+                                    ),
+                                    attr='keys',
+                                    ctx=Load(),
+                                ),
+                                args=[],
+                                keywords=[],
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[
+                                        Subscript(
+                                            value=Subscript(
+                                                value=Subscript(
+                                                    value=Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='hdr',
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Name(id='name', ctx=Load()),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Name(id='key', ctx=Load()),
+                                                ctx=Load(),
+                                            ),
+                                            slice=Constant(value='value'),
+                                            ctx=Store(),
+                                        ),
+                                    ],
+                                    value=Call(
+                                        func=Name(id='packet_in', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='name', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Name(id='key', ctx=Load()),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='type'),
+                                                ctx=Load(),
+                                            ),
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='name', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Name(id='key', ctx=Load()),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='width'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='get',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='field'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        If(
+                            test=Compare(
+                                left=Name(id='field', ctx=Load()),
+                                ops=[In()],
+                                comparators=[
+                                    Call(
+                                        func=Attribute(
+                                            value=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='hdr',
+                                                ctx=Load(),
+                                            ),
+                                            attr='keys',
+                                            ctx=Load(),
+                                        ),
+                                        args=[],
+                                        keywords=[],
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Return(
+                                    value=Subscript(
+                                        value=Attribute(
+                                            value=Name(id='self', ctx=Load()),
+                                            attr='hdr',
+                                            ctx=Load(),
+                                        ),
+                                        slice=Name(id='field', ctx=Load()),
+                                        ctx=Load(),
+                                    ),
+                                ),
+                            ],
+                            orelse=[
+                                For(
+                                    target=Name(id='name', ctx=Store()),
+                                    iter=Call(
+                                        func=Attribute(
+                                            value=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='hdr',
+                                                ctx=Load(),
+                                            ),
+                                            attr='keys',
+                                            ctx=Load(),
+                                        ),
+                                        args=[],
+                                        keywords=[],
+                                    ),
+                                    body=[
+                                        If(
+                                            test=Compare(
+                                                left=Name(id='field', ctx=Load()),
+                                                ops=[In()],
+                                                comparators=[
+                                                    Call(
+                                                        func=Attribute(
+                                                            value=Subscript(
+                                                                value=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='hdr',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                slice=Name(id='name', ctx=Load()),
+                                                                ctx=Load(),
+                                                            ),
+                                                            attr='keys',
+                                                            ctx=Load(),
+                                                        ),
+                                                        args=[],
+                                                        keywords=[],
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                Return(
+                                                    value=Subscript(
+                                                        value=Subscript(
+                                                            value=Name(id='hdr', ctx=Load()),
+                                                            slice=Name(id='name', ctx=Load()),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='field', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ),
+                                            ],
+                                            orelse=[],
+                                        ),
+                                    ],
+                                    orelse=[],
+                                    type_comment=None,
+                                ),
+                            ],
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='returner',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[arg(arg='self')],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        If(
+                            test=Compare(
+                                left=Constant(value='tcp'),
+                                ops=[In()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='checksum', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='hdr',
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='tcp'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Compare(
+                                left=Constant(value='udp'),
+                                ops=[In()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='checksum', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='hdr',
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='udp'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Compare(
+                                left=Constant(value='ipv4'),
+                                ops=[In()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='__do_swap', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ipv4'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='src_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ipv4'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='dst_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='checksum', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='hdr',
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='ipv4'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Compare(
+                                left=Constant(value='ipv6'),
+                                ops=[In()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='__do_swap', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ipv6'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='src_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ipv6'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='dst_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Compare(
+                                left=Constant(value='ethernet'),
+                                ops=[In()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='header',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Expr(
+                                    value=Call(
+                                        func=Name(id='__do_swap', ctx=Load()),
+                                        args=[
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ethernet'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='src_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                            Subscript(
+                                                value=Subscript(
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='hdr',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='ethernet'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='dst_addr'),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Constant(value='value'),
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='__do_swap',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='a'),
+                            arg(arg='b'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[Name(id='tmp', ctx=Store())],
+                            value=Name(id='a', ctx=Load()),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[Name(id='a', ctx=Store())],
+                            value=Name(id='b', ctx=Load()),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[Name(id='b', ctx=Store())],
+                            value=Name(id='tmp', ctx=Load()),
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='embed',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='packet_in'),
+                            arg(arg='hdrs'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        For(
+                            target=Name(id='k', ctx=Store()),
+                            iter=Call(
+                                func=Attribute(
+                                    value=Name(id='hdrs', ctx=Load()),
+                                    attr='keys',
+                                    ctx=Load(),
+                                ),
+                                args=[],
+                                keywords=[],
+                            ),
+                            body=[
+                                If(
+                                    test=Compare(
+                                        left=Name(id='k', ctx=Load()),
+                                        ops=[NotIn()],
+                                        comparators=[
+                                            Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='header',
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                    ),
+                                    body=[
+                                        Expr(
+                                            value=Call(
+                                                func=Attribute(
+                                                    value=Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='header',
+                                                        ctx=Load(),
+                                                    ),
+                                                    attr='append',
+                                                    ctx=Load(),
+                                                ),
+                                                args=[Name(id='k', ctx=Load())],
+                                                keywords=[],
+                                            ),
+                                        ),
+                                        If(
+                                            test=Compare(
+                                                left=Constant(value='udp'),
+                                                ops=[In()],
+                                                comparators=[
+                                                    Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='header',
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                AugAssign(
+                                                    target=Subscript(
+                                                        value=Subscript(
+                                                            value=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='hdrs',
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Constant(value='udp'),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='len'),
+                                                        ctx=Store(),
+                                                    ),
+                                                    op=Add(),
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='width',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='k', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ),
+                                            ],
+                                            orelse=[],
+                                        ),
+                                        If(
+                                            test=Compare(
+                                                left=Constant(value='ipv4'),
+                                                ops=[In()],
+                                                comparators=[
+                                                    Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='header',
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                AugAssign(
+                                                    target=Subscript(
+                                                        value=Subscript(
+                                                            value=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='hdrs',
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Constant(value='ipv4'),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='totalLen'),
+                                                        ctx=Store(),
+                                                    ),
+                                                    op=Add(),
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='width',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='k', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ),
+                                            ],
+                                            orelse=[],
+                                        ),
+                                        If(
+                                            test=Compare(
+                                                left=Constant(value='ipv6'),
+                                                ops=[In()],
+                                                comparators=[
+                                                    Attribute(
+                                                        value=Name(id='self', ctx=Load()),
+                                                        attr='header',
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                AugAssign(
+                                                    target=Subscript(
+                                                        value=Subscript(
+                                                            value=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='hdrs',
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Constant(value='ipv4'),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='pdLen'),
+                                                        ctx=Store(),
+                                                    ),
+                                                    op=Add(),
+                                                    value=Subscript(
+                                                        value=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='width',
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Name(id='k', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ),
+                                            ],
+                                            orelse=[],
+                                        ),
+                                    ],
+                                    orelse=[],
+                                ),
+                                Assign(
+                                    targets=[Name(id='fields', ctx=Store())],
+                                    value=Call(
+                                        func=Attribute(
+                                            value=Subscript(
+                                                value=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='hdr',
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Name(id='k', ctx=Load()),
+                                                ctx=Load(),
+                                            ),
+                                            attr='keys',
+                                            ctx=Load(),
+                                        ),
+                                        args=[],
+                                        keywords=[],
+                                    ),
+                                    type_comment=None,
+                                ),
+                                For(
+                                    target=Name(id='i', ctx=Store()),
+                                    iter=Call(
+                                        func=Name(id='range', ctx=Load()),
+                                        args=[
+                                            Call(
+                                                func=Name(id='len', ctx=Load()),
+                                                args=[
+                                                    Subscript(
+                                                        value=Name(id='hdrs', ctx=Load()),
+                                                        slice=Name(id='k', ctx=Load()),
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                                keywords=[],
+                                            ),
+                                        ],
+                                        keywords=[],
+                                    ),
+                                    body=[
+                                        Assign(
+                                            targets=[
+                                                Subscript(
+                                                    value=Subscript(
+                                                        value=Subscript(
+                                                            value=Attribute(
+                                                                value=Name(id='self', ctx=Load()),
+                                                                attr='hdr',
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Name(id='k', ctx=Load()),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Subscript(
+                                                            value=Name(id='fields', ctx=Load()),
+                                                            slice=Name(id='i', ctx=Load()),
+                                                            ctx=Load(),
+                                                        ),
+                                                        ctx=Load(),
+                                                    ),
+                                                    slice=Constant(value='value'),
+                                                    ctx=Store(),
+                                                ),
+                                            ],
+                                            value=Subscript(
+                                                value=Subscript(
+                                                    value=Name(id='hdrs', ctx=Load()),
+                                                    slice=Name(id='k', ctx=Load()),
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Name(id='i', ctx=Load()),
+                                                ctx=Load(),
+                                            ),
+                                            type_comment=None,
+                                        ),
+                                    ],
+                                    orelse=[],
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='emit',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[arg(arg='self')],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        For(
+                            target=Name(id='h', ctx=Store()),
+                            iter=Attribute(
+                                value=Name(id='self', ctx=Load()),
+                                attr='header',
+                                ctx=Load(),
+                            ),
+                            body=[
+                                For(
+                                    target=Name(id='key', ctx=Store()),
+                                    iter=Call(
+                                        func=Attribute(
+                                            value=Subscript(
+                                                value=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='hdr',
+                                                    ctx=Load(),
+                                                ),
+                                                slice=Name(id='h', ctx=Load()),
+                                                ctx=Load(),
+                                            ),
+                                            attr='keys',
+                                            ctx=Load(),
+                                        ),
+                                        args=[],
+                                        keywords=[],
+                                    ),
+                                    body=[
+                                        Expr(
+                                            value=Call(
+                                                func=Name(id='packet_in', ctx=Load()),
+                                                args=[
+                                                    Subscript(
+                                                        value=Subscript(
+                                                            value=Subscript(
+                                                                value=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='hdr',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                slice=Name(id='h', ctx=Load()),
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Name(id='key', ctx=Load()),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='type'),
+                                                        ctx=Load(),
+                                                    ),
+                                                    Subscript(
+                                                        value=Subscript(
+                                                            value=Subscript(
+                                                                value=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='hdr',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                slice=Name(id='h', ctx=Load()),
+                                                                ctx=Load(),
+                                                            ),
+                                                            slice=Name(id='key', ctx=Load()),
+                                                            ctx=Load(),
+                                                        ),
+                                                        slice=Constant(value='width'),
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                                keywords=[],
+                                            ),
+                                        ),
+                                    ],
+                                    orelse=[],
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='mark_drop',
+                    args=arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Subscript(
+                                    value=Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='__meta',
+                                        ctx=Load(),
+                                    ),
+                                    slice=Constant(value='drop'),
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Constant(value=1),
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+            ],
+            decorator_list=[],
+        ),
+        ClassDef(
+            name='Hash',
+            bases=[],
+            keywords=[],
+            body=[
+                Import(
+                    names=[alias(name='hashlib')],
+                ),
+                FunctionDef(
+                    name='__init__',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='hash_name'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[Constant(value='custom')],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='alg',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Name(id='hash_name', ctx=Load()),
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='__crc8',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[arg(arg='self')],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Expr(
+                            value=Constant(value=Ellipsis),
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='__md5',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[arg(arg='self')],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Return(
+                            value=Call(
+                                func=Attribute(
+                                    value=Name(id='hashlib', ctx=Load()),
+                                    attr='md5',
+                                    ctx=Load(),
+                                ),
+                                args=[],
+                                keywords=[],
+                            ),
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                Expr(
+                    value=Constant(value=Ellipsis),
+                ),
+                FunctionDef(
+                    name='hash',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='key'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        If(
+                            test=Compare(
+                                left=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='alg',
+                                    ctx=Load(),
+                                ),
+                                ops=[In()],
+                                comparators=[
+                                    Tuple(
+                                        elts=[
+                                            Constant(value='crc8'),
+                                            Constant(value='CRC8'),
+                                        ],
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[Name(id='value', ctx=Store())],
+                                    value=Call(
+                                        func=Name(id='__crc8', ctx=Load()),
+                                        args=[Name(id='key', ctx=Load())],
+                                        keywords=[],
+                                    ),
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[
+                                If(
+                                    test=Compare(
+                                        left=Attribute(
+                                            value=Name(id='self', ctx=Load()),
+                                            attr='alg',
+                                            ctx=Load(),
+                                        ),
+                                        ops=[In()],
+                                        comparators=[
+                                            Tuple(
+                                                elts=[
+                                                    Constant(value='crc16'),
+                                                    Constant(value='CRC16'),
+                                                ],
+                                                ctx=Load(),
+                                            ),
+                                        ],
+                                    ),
+                                    body=[
+                                        Assign(
+                                            targets=[Name(id='value', ctx=Store())],
+                                            value=Call(
+                                                func=Name(id='__crc16', ctx=Load()),
+                                                args=[Name(id='key', ctx=Load())],
+                                                keywords=[],
+                                            ),
+                                            type_comment=None,
+                                        ),
+                                    ],
+                                    orelse=[
+                                        If(
+                                            test=Compare(
+                                                left=Attribute(
+                                                    value=Name(id='self', ctx=Load()),
+                                                    attr='alg',
+                                                    ctx=Load(),
+                                                ),
+                                                ops=[In()],
+                                                comparators=[
+                                                    Tuple(
+                                                        elts=[
+                                                            Constant(value='crc32'),
+                                                            Constant(value='CRC32'),
+                                                        ],
+                                                        ctx=Load(),
+                                                    ),
+                                                ],
+                                            ),
+                                            body=[
+                                                Assign(
+                                                    targets=[Name(id='value', ctx=Store())],
+                                                    value=Call(
+                                                        func=Name(id='__crc32', ctx=Load()),
+                                                        args=[Name(id='key', ctx=Load())],
+                                                        keywords=[],
+                                                    ),
+                                                    type_comment=None,
+                                                ),
+                                            ],
+                                            orelse=[
+                                                If(
+                                                    test=Compare(
+                                                        left=Attribute(
+                                                            value=Name(id='self', ctx=Load()),
+                                                            attr='alg',
+                                                            ctx=Load(),
+                                                        ),
+                                                        ops=[In()],
+                                                        comparators=[
+                                                            Tuple(
+                                                                elts=[
+                                                                    Constant(value='random'),
+                                                                    Constant(value='RANDOM'),
+                                                                ],
+                                                                ctx=Load(),
+                                                            ),
+                                                        ],
+                                                    ),
+                                                    body=[
+                                                        Assign(
+                                                            targets=[Name(id='value', ctx=Store())],
+                                                            value=Call(
+                                                                func=Name(id='__random', ctx=Load()),
+                                                                args=[Name(id='key', ctx=Load())],
+                                                                keywords=[],
+                                                            ),
+                                                            type_comment=None,
+                                                        ),
+                                                    ],
+                                                    orelse=[
+                                                        If(
+                                                            test=Compare(
+                                                                left=Attribute(
+                                                                    value=Name(id='self', ctx=Load()),
+                                                                    attr='alg',
+                                                                    ctx=Load(),
+                                                                ),
+                                                                ops=[In()],
+                                                                comparators=[
+                                                                    Tuple(
+                                                                        elts=[
+                                                                            Constant(value='identity'),
+                                                                            Constant(value='IDENTITY'),
+                                                                        ],
+                                                                        ctx=Load(),
+                                                                    ),
+                                                                ],
+                                                            ),
+                                                            body=[
+                                                                Assign(
+                                                                    targets=[Name(id='value', ctx=Store())],
+                                                                    value=Call(
+                                                                        func=Name(id='__identity', ctx=Load()),
+                                                                        args=[Name(id='key', ctx=Load())],
+                                                                        keywords=[],
+                                                                    ),
+                                                                    type_comment=None,
+                                                                ),
+                                                            ],
+                                                            orelse=[
+                                                                If(
+                                                                    test=Compare(
+                                                                        left=Attribute(
+                                                                            value=Name(id='self', ctx=Load()),
+                                                                            attr='alg',
+                                                                            ctx=Load(),
+                                                                        ),
+                                                                        ops=[In()],
+                                                                        comparators=[
+                                                                            Tuple(
+                                                                                elts=[
+                                                                                    Constant(value='custom'),
+                                                                                    Constant(value='CUSTOM'),
+                                                                                ],
+                                                                                ctx=Load(),
+                                                                            ),
+                                                                        ],
+                                                                    ),
+                                                                    body=[
+                                                                        Assign(
+                                                                            targets=[Name(id='value', ctx=Store())],
+                                                                            value=Call(
+                                                                                func=Name(id='__custom', ctx=Load()),
+                                                                                args=[Name(id='key', ctx=Load())],
+                                                                                keywords=[],
+                                                                            ),
+                                                                            type_comment=None,
+                                                                        ),
+                                                                    ],
+                                                                    orelse=[],
+                                                                ),
+                                                            ],
+                                                        ),
+                                                    ],
+                                                ),
+                                            ],
+                                        ),
+                                    ],
+                                ),
+                            ],
+                        ),
+                        Expr(
+                            value=Constant(value=Ellipsis),
+                        ),
+                        Return(
+                            value=Name(id='value', ctx=Load()),
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+            ],
+            decorator_list=[],
+        ),
+        ClassDef(
+            name='Cache',
+            bases=[],
+            keywords=[],
+            body=[
+                FunctionDef(
+                    name='__init__',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='rows'),
+                            arg(arg='hash_name'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[Constant(value='custom')],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='rows',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Name(id='rows', ctx=Load()),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='cache',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=List(
+                                elts=[
+                                    BinOp(
+                                        left=Name(id='rows', ctx=Load()),
+                                        op=Mult(),
+                                        right=List(elts=[], ctx=Load()),
+                                    ),
+                                ],
+                                ctx=Load(),
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='valid',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=ListComp(
+                                elt=Constant(value=0),
+                                generators=[
+                                    comprehension(
+                                        target=Name(id='i', ctx=Store()),
+                                        iter=Call(
+                                            func=Name(id='range', ctx=Load()),
+                                            args=[Name(id='rows', ctx=Load())],
+                                            keywords=[],
+                                        ),
+                                        ifs=[],
+                                        is_async=0,
+                                    ),
+                                ],
+                            ),
+                            type_comment=None,
+                        ),
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='H',
+                                    ctx=Store(),
+                                ),
+                            ],
+                            value=Call(
+                                func=Name(id='Hash', ctx=Load()),
+                                args=[Name(id='hash_name', ctx=Load())],
+                                keywords=[],
+                            ),
+                            type_comment=None,
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='lookup',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='key'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[Name(id='index', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='H',
+                                        ctx=Load(),
+                                    ),
+                                    attr='hash',
+                                    ctx=Load(),
+                                ),
+                                args=[Name(id='key', ctx=Load())],
+                                keywords=[],
+                            ),
+                            type_comment=None,
+                        ),
+                        If(
+                            test=Compare(
+                                left=Name(id='index', ctx=Load()),
+                                ops=[GtE()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='rows',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[Name(id='index', ctx=Store())],
+                                    value=BinOp(
+                                        left=Name(id='index', ctx=Load()),
+                                        op=Sub(),
+                                        right=BinOp(
+                                            left=Name(id='index', ctx=Load()),
+                                            op=Div(),
+                                            right=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='rows',
+                                                ctx=Load(),
+                                            ),
+                                        ),
+                                    ),
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Subscript(
+                                value=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='valid',
+                                    ctx=Load(),
+                                ),
+                                slice=Name(id='index', ctx=Load()),
+                                ctx=Load(),
+                            ),
+                            body=[
+                                Return(
+                                    value=Subscript(
+                                        value=Attribute(
+                                            value=Name(id='self', ctx=Load()),
+                                            attr='cache',
+                                            ctx=Load(),
+                                        ),
+                                        slice=Name(id='index', ctx=Load()),
+                                        ctx=Load(),
+                                    ),
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+                FunctionDef(
+                    name='update',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self'),
+                            arg(arg='key'),
+                            arg(arg='values'),
+                        ],
+                        vararg=None,
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        kwarg=None,
+                        defaults=[],
+                    ),
+                    body=[
+                        Assign(
+                            targets=[Name(id='index', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='H',
+                                        ctx=Load(),
+                                    ),
+                                    attr='hash',
+                                    ctx=Load(),
+                                ),
+                                args=[Name(id='key', ctx=Load())],
+                                keywords=[],
+                            ),
+                            type_comment=None,
+                        ),
+                        If(
+                            test=Compare(
+                                left=Name(id='index', ctx=Load()),
+                                ops=[GtE()],
+                                comparators=[
+                                    Attribute(
+                                        value=Name(id='self', ctx=Load()),
+                                        attr='rows',
+                                        ctx=Load(),
+                                    ),
+                                ],
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[Name(id='index', ctx=Store())],
+                                    value=BinOp(
+                                        left=Name(id='index', ctx=Load()),
+                                        op=Sub(),
+                                        right=BinOp(
+                                            left=Name(id='index', ctx=Load()),
+                                            op=Div(),
+                                            right=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='rows',
+                                                ctx=Load(),
+                                            ),
+                                        ),
+                                    ),
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                        If(
+                            test=Subscript(
+                                value=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='valid',
+                                    ctx=Load(),
+                                ),
+                                slice=Name(id='index', ctx=Load()),
+                                ctx=Load(),
+                            ),
+                            body=[
+                                Assign(
+                                    targets=[
+                                        Subscript(
+                                            value=Attribute(
+                                                value=Name(id='self', ctx=Load()),
+                                                attr='cache',
+                                                ctx=Load(),
+                                            ),
+                                            slice=Name(id='index', ctx=Load()),
+                                            ctx=Store(),
+                                        ),
+                                    ],
+                                    value=Name(id='values', ctx=Load()),
+                                    type_comment=None,
+                                ),
+                            ],
+                            orelse=[],
+                        ),
+                    ],
+                    decorator_list=[],
+                    returns=None,
+                    type_comment=None,
+                ),
+            ],
+            decorator_list=[],
+        ),
+    ],
+    type_ignores=[],
+)
